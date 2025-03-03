@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - "./:/var/www/html"
+    depends_on:
+      - mariadb
+  mariadb:
+    image: mariadb
+    restart: always
+    env_file: .env.local
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./learning-app-ecommerce/assets/db-load-script.sql:/docker-entrypoint-initdb.d/db-load-script.sql"
